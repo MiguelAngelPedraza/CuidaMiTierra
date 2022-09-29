@@ -1,5 +1,7 @@
-﻿using MalbersAnimations.Scriptables;
+﻿using System.Collections.Generic;
+using MalbersAnimations.Scriptables;
 using UnityEngine;
+using MalbersAnimations.Events; 
 
 namespace MalbersAnimations
 {
@@ -48,6 +50,7 @@ namespace MalbersAnimations
             }
         }
 
+
         //Is Called by any of the "StepTrigger" Script on a feet when they collide with the ground.
         internal void EnterStep(StepTrigger foot, Collider surface)
         {
@@ -62,7 +65,10 @@ namespace MalbersAnimations
             if (foot.StepAudio && !sounds.NullOrEmpty())    //If the track has an AudioSource Component and whe have some audio to play
             {
                 foot.StepAudio.clip = sounds.GetValue();    //Set the any of the Audio Clips from the list to the Feet's AudioSource Component
+                foot.StepAudio.pitch = Random.Range(0.8f, 1.2f);// AGREGUE UN SISTEMA PARA QUE LOS PASOS NO SE ESCUCHEN SIEMPRE IGUAL
                 foot.StepAudio.Play();                      //Play the Audio
+                
+                
             }
 
 

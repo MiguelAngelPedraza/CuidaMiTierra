@@ -19,6 +19,8 @@ public class ChangePlayers : MonoBehaviour
     [Header("Restart WolfVision")]
     [SerializeField] GameObject postProcess;
     [SerializeField] ActivateOutlines outline;
+
+    
     void Start()
     {
 
@@ -46,6 +48,7 @@ public class ChangePlayers : MonoBehaviour
     void Update()
     {
         if (canChange) Select();
+        
     }
     bool changeNow;
     public void CharacterChange()
@@ -71,6 +74,7 @@ public class ChangePlayers : MonoBehaviour
 
                 cmCamera.m_Follow = animals[indexCharacter].transform;
                 cmCamera.LookAt = animals[indexCharacter].transform;
+
             }
             else
             {
