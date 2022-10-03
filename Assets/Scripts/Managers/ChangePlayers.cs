@@ -14,7 +14,8 @@ public class ChangePlayers : MonoBehaviour
     [SerializeField] bool canChange;
     [Space]
     [Header("Camera Select")]
-    [SerializeField] Cinemachine.CinemachineFreeLook cmCamera;
+    //[SerializeField] Cinemachine.CinemachineFreeLook cmCamera;
+    [SerializeField] Cinemachine.CinemachineVirtualCamera vrCamera;
     [Space]
     [Header("Restart WolfVision")]
     [SerializeField] GameObject postProcess;
@@ -29,8 +30,8 @@ public class ChangePlayers : MonoBehaviour
 
             animals[i].gameObject.FindComponent<ComponentSelector>().enabled = false;
             animals[i].gameObject.FindComponent<MalbersInput>().enabled = false;
-            cmCamera.m_Follow = animals[i].transform;
-            cmCamera.LookAt = animals[i].transform;
+            vrCamera.m_Follow = animals[i].transform;
+            vrCamera.LookAt = animals[i].transform;
 
         }
         if (animals.Length > 0)
@@ -38,8 +39,8 @@ public class ChangePlayers : MonoBehaviour
             animals[0].gameObject.FindComponent<ComponentSelector>().enabled = true;
             animals[0].gameObject.FindComponent<MalbersInput>().enabled = true;
 
-            cmCamera.m_Follow = animals[0].transform;
-            cmCamera.LookAt = animals[0].transform;
+            vrCamera.m_Follow = animals[0].transform;
+            vrCamera.LookAt = animals[0].transform;
 
         }
 
@@ -72,8 +73,8 @@ public class ChangePlayers : MonoBehaviour
                 animals[indexCharacter].gameObject.FindComponent<ComponentSelector>().enabled = true;
                 animals[indexCharacter].gameObject.FindComponent<MalbersInput>().enabled = true;
 
-                cmCamera.m_Follow = animals[indexCharacter].transform;
-                cmCamera.LookAt = animals[indexCharacter].transform;
+                vrCamera.m_Follow = animals[indexCharacter].transform;
+                vrCamera.LookAt = animals[indexCharacter].transform;
 
             }
             else
@@ -85,8 +86,8 @@ public class ChangePlayers : MonoBehaviour
 
                 animals[indexCharacter].gameObject.FindComponent<ComponentSelector>().enabled = true;
                 animals[indexCharacter].gameObject.FindComponent<MalbersInput>().enabled = true;
-                cmCamera.m_Follow = animals[indexCharacter].transform;
-                cmCamera.LookAt = animals[indexCharacter].transform;
+                vrCamera.m_Follow = animals[indexCharacter].transform;
+                vrCamera.LookAt = animals[indexCharacter].transform;
             }
         }
     }
