@@ -9,6 +9,9 @@ TagManager:
   - Fly
   - Animal
   - Water
+  - WayPoint
+  - Sound
+  - Alarm
   layers:
   - Default
   - TransparentFX
