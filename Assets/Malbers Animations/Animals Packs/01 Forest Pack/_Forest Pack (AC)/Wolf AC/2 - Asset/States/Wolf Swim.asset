@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: Wolf Swim
   m_EditorClassIdentifier: 
   Active: 1
-  ID: {fileID: 11400000, guid: 7e364e53b77644c47aa3abdaa2e2c08c, type: 2}
   Input: 
+  ExitInput:
+    UseConstant: 1
+    ConstantValue: 
+    Variable: {fileID: 0}
   Priority: 5
   General:
     modify: 7295
@@ -31,9 +34,7 @@ MonoBehaviour:
     IgnoreLowerStates: 1
     LockMovement: 0
     LockInput: 0
-  SleepFromState: []
-  SleepFromMode: []
-  QueueFrom: []
+  GeneralMessage: []
   TagModifiers:
   - AnimationTag: SwimEnter
     modifier:
@@ -51,6 +52,7 @@ MonoBehaviour:
       IgnoreLowerStates: 1
       LockMovement: 0
       LockInput: 0
+    tagMessages: []
   - AnimationTag: SwimExit
     modifier:
       modify: 7407
@@ -67,6 +69,16 @@ MonoBehaviour:
       IgnoreLowerStates: 1
       LockMovement: 0
       LockInput: 0
+    tagMessages: []
+  UseSendMessage: 0
+  IncludeChildren: 1
+  AllowExitFromAnim: 0
+  IncludeSleepState: 1
+  SleepFromState: []
+  SleepFromMode: []
+  QueueFrom: []
+  SleepFromStance: []
+  stances: []
   TryLoop:
     UseConstant: 1
     ConstantValue: 3
@@ -81,6 +93,10 @@ MonoBehaviour:
     Variable: {fileID: 0}
   ExitFrame: 1
   ExitOnMain: 1
+  EnterCooldown:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   ExitCooldown:
     UseConstant: 1
     ConstantValue: 0.1
@@ -89,6 +105,8 @@ MonoBehaviour:
   MovementStrafe: 1
   IdleStrafe: 1
   debug: 1
+  Editor_Tabs1: 3
+  ID: {fileID: 11400000, guid: 7e364e53b77644c47aa3abdaa2e2c08c, type: 2}
   WaterLayer:
     serializedVersion: 2
     m_Bits: 16
