@@ -12,6 +12,8 @@ TagManager:
   - WayPoint
   - Sound
   - Alarm
+  - Worker
+  - Hunter
   layers:
   - Default
   - TransparentFX

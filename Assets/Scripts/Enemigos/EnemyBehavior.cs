@@ -14,6 +14,7 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] int nextIndex;
     [SerializeField] Vector3 alarm;
     [SerializeField] FieldOfView fov;
+    [SerializeField] GameObject target;
 
     [SerializeField] bool search;
     [SerializeField] bool alert;
@@ -22,6 +23,8 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] float lookTemp = 0;
     [SerializeField] float lookTempLimit = 7;
     [SerializeField] float limitTemp = 2;
+    [SerializeField] float shootTemp = 0;
+    [SerializeField] float shootTempLimit = 4;
 
     // Start is called before the first frame update
     void Start()
@@ -41,17 +44,29 @@ public class EnemyBehavior : MonoBehaviour
         {
             nextIndex = 0;
         }
-/*
-        if(fov.alert && !alert)
-        {
-            Alert();
-        }*/
 
-        Comportamiento();
+        if(fov.LookForPlayer() && !alert)
+        {
+            target = fov.animalDetected;
+            Alert();
+        }
+
+        if(transform.tag == "Worker")
+        {
+            ComportamientoWorker();
+        }
+        else
+        {
+            if(transform.tag == "Hunter")
+            {
+                ComportamientoHunter();
+            }
+        }
+        
         
     }
 
-    void Comportamiento()
+    void ComportamientoWorker()
     {
         enemyAgent.speed = speed;
 
@@ -64,6 +79,7 @@ public class EnemyBehavior : MonoBehaviour
                 temp = 0;
             }
         }
+
 
         switch(rutina)
         {
@@ -105,6 +121,78 @@ public class EnemyBehavior : MonoBehaviour
                 
                 enemyAgent.destination = alarm;
                 break;
+        }
+    }
+
+    void ComportamientoHunter()
+    {
+        enemyAgent.speed = speed;
+
+        if(rutina == 0)
+        {
+            temp += Time.deltaTime;
+            if(temp > limitTemp)
+            {
+                rutina = 1;
+                temp = 0;
+            }
+        }
+
+
+        switch(rutina)
+        {
+            case 0:
+                anim.SetBool("Walk", false);
+                break;
+            case 1:
+                speed = 3.5f;
+                anim.SetBool("Walk", true);
+                enemyAgent.destination = nextPosition.transform.position;
+                break;
+            case 2:
+                speed = 0f;
+                anim.SetBool("React", true);
+                break;
+            case 3:
+                speed = 2f;
+                anim.SetBool("Sneak", true);
+                enemyAgent.destination = searchPosition;
+
+                if(Vector3.Distance(transform.position,searchPosition) < 0.1f)
+                {
+                    rutina = 4;
+                }
+                break;
+            case 4:
+                anim.SetBool("Look", true);
+                speed = 0f;
+                lookTemp += Time.deltaTime;
+                if(lookTemp > 10)
+                {
+                    EndLook();
+                }
+
+                break;
+            case 5:
+                anim.SetBool("Aim", true);
+                speed = 0;
+                shootTemp += Time.deltaTime;
+                enemyAgent.destination = alarm;
+                transform.LookAt(new Vector3(target.transform.position.x,transform.position.y,
+                target.transform.position.z));
+
+                if(shootTemp >= shootTempLimit)
+                {
+                    rutina++;
+                }
+
+                break;
+
+            case 6:
+                anim.SetBool("Fire",true);
+
+                break;
+                    
         }
     }
 
@@ -179,9 +267,32 @@ public class EnemyBehavior : MonoBehaviour
 
     public void Alert()
     {
+        anim.SetBool("Walk",false);
+        anim.SetBool("React",false);
+        anim.SetBool("Sneak",false);
+        anim.SetBool("Look",false);
+        anim.SetBool("Aim", false);
+        anim.SetBool("Fire", false);
         alert = true;
         rutina = 2;
     }
 
+    public void EndShoot()
+    {
+        anim.SetBool("Walk",false);
+        anim.SetBool("React",false);
+        anim.SetBool("Sneak",false);
+        anim.SetBool("Look",false);
+        anim.SetBool("Aim", false);
+        anim.SetBool("Fire", false);
+
+        Debug.Log("Dispare");
+
+        search = false;
+        alert = false;
+
+        shootTemp = 0;
+        rutina = 0;
+    }
 
 }

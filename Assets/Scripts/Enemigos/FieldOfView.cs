@@ -4,6 +4,69 @@ using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
+    public float detectionRadius = 10.0f;
+    public float detectionAngle = 90.0f;
+    public GameObject[] animals;
+    public GameObject animalDetected;
+
+    void Start()
+    {
+        animals = GameObject.FindGameObjectsWithTag("Animal");
+    }
+    private void Update()
+    {
+        LookForPlayer();
+    }
+
+    public bool LookForPlayer()
+    {
+        bool alert = false;
+
+        foreach(GameObject animal in animals)
+        {
+            Vector3 enemyPosition = transform.position; 
+            Vector3 toPlayer = animal.transform.position - enemyPosition;
+            toPlayer.y = 0;
+
+            if (toPlayer.magnitude <= detectionRadius)
+            {
+                if (Vector3.Dot(toPlayer.normalized, transform.forward) >
+                    Mathf.Cos(detectionAngle * 0.5f * Mathf.Deg2Rad)) {
+
+                    Debug.Log("Player has been detected!");
+                    alert = true;
+                    animalDetected = animal;
+                }
+            }
+        }
+        return alert;
+    }
+
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        Color c = new Color(0.8f, 0, 0, 0.4f);
+        UnityEditor.Handles.color = c;
+
+        Vector3 rotatedForward = Quaternion.Euler(
+            0,
+            -detectionAngle * 0.5f,
+            0) * transform.forward;
+
+        UnityEditor.Handles.DrawSolidArc(
+            transform.position,
+            Vector3.up,
+            rotatedForward,
+            detectionAngle,
+            detectionRadius);
+
+    }
+#endif
+}
+
+
+/*{
     [SerializeField] public bool alert;
     [SerializeField] RaycastHit hit;
     [SerializeField] float rayLength = 10;
@@ -178,6 +241,6 @@ public class FieldOfView : MonoBehaviour
             UnityEditor.Handles.DrawWireDisc(pos, cabecaInimigo.transform.forward, distanciaDeVisao * Mathf.Sin(angle * Mathf.Deg2Rad));
         }
     }
-    #endif*/
-}
+    #endif
+}*/
 
