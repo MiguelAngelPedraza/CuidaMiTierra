@@ -11,7 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 4ae65d730db1a154c9c3f1d2bda81cd1, type: 3}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _DETAIL_MULX2 _EMISSION _NORMALMAP
   m_LightmapFlags: 1
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -100,14 +100,14 @@ Material:
     - _GlossyReflections: 1
     - _Metallic: 0.376
     - _Mode: 3
-    - _NormalScale: 0.5
+    - _NormalScale: 0.1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _ReflDistort: 0.82
     - _RefrDistort: 0.76
-    - _Smoothness: 0.85
+    - _Smoothness: 0.1
     - _SmoothnessTextureChannel: 0
-    - _Specular: 0.05
+    - _Specular: 0.001
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
@@ -120,7 +120,7 @@ Material:
     - WaveSpeed: {r: 9.77, g: 7.69, b: -24.04, a: 5.51}
     - _BumpMap_ST: {r: 1, g: 1, b: 0, a: 0}
     - _Color: {r: 0.10596885, g: 0.30767515, b: 0.3602941, a: 0.272}
-    - _EdgeColor: {r: 0.25658593, g: 0.45812863, b: 0.5849056, a: 1}
+    - _EdgeColor: {r: 0.52020293, g: 0.6069776, b: 0.6603774, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Fresnel_ST: {r: 1, g: 1, b: 0, a: 0}
     - _HorizonColor: {r: 0.18823531, g: 0.27450982, b: 0.31764707, a: 0}
@@ -130,7 +130,8 @@ Material:
     - _ReflectiveColor_ST: {r: 1, g: 1, b: 0, a: 0}
     - _RefrColor: {r: 0.29925388, g: 0.6483413, b: 0.99264705, a: 1}
     - _RefractionTex_ST: {r: 1, g: 1, b: 0, a: 0}
-    - _WaterColor: {r: 0.13416693, g: 0.34530684, b: 0.6320754, a: 1}
+    - _WaterColor: {r: 0.734247, g: 0.9412134, b: 0.9433962, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1002 &2100001
 EditorExtensionImpl:
   serializedVersion: 6
