@@ -9,6 +9,11 @@ TagManager:
   - Fly
   - Animal
   - Water
+  - WayPoint
+  - Sound
+  - Alarm
+  - Worker
+  - Hunter
   layers:
   - Default
   - TransparentFX
