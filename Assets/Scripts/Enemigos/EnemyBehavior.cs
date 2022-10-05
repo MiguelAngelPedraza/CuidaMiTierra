@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class EnemyBehavior : MonoBehaviour
 {
@@ -13,8 +14,10 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] float speed = 3.5f;
     [SerializeField] int nextIndex;
     [SerializeField] Vector3 alarm;
+    [SerializeField] GameObject alarmObject;
     [SerializeField] FieldOfView fov;
     [SerializeField] GameObject target;
+    [SerializeField] GameObject cazadores;
 
     [SerializeField] bool search;
     [SerializeField] bool alert;
@@ -31,7 +34,10 @@ public class EnemyBehavior : MonoBehaviour
     {
         enemyAgent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
-        alarm = GameObject.FindGameObjectWithTag("Alarm").transform.position;
+        cazadores = GameObject.FindGameObjectWithTag("Cazadores");
+        
+        if(alarmObject != null)
+        alarm = alarmObject.transform.position;
         alarm = new Vector3(alarm.x,0,alarm.z);
         nextPosition = ruta.waypoints[0];
         nextIndex = 1;
@@ -48,6 +54,7 @@ public class EnemyBehavior : MonoBehaviour
         if(fov.LookForPlayer() && !alert)
         {
             target = fov.animalDetected;
+            nextPosition = alarmObject;
             Alert();
         }
 
@@ -119,7 +126,7 @@ public class EnemyBehavior : MonoBehaviour
                 anim.SetBool("Run", true);
                 speed = 6;
                 
-                enemyAgent.destination = alarm;
+                enemyAgent.destination = nextPosition.transform.position;
                 break;
         }
     }
@@ -228,6 +235,8 @@ public class EnemyBehavior : MonoBehaviour
             anim.SetBool("React",false);
             anim.SetBool("Sneak",false);
             anim.SetBool("Look",true);
+
+            cazadores.SetActive(true);
         }
     }
 
@@ -293,6 +302,13 @@ public class EnemyBehavior : MonoBehaviour
 
         shootTemp = 0;
         rutina = 0;
+
+        GameOver();
+    }
+
+    public void GameOver()
+    {
+        SceneManager.LoadScene(0);
     }
 
 }
