@@ -1,89 +1,118 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using MalbersAnimations.Controller;
 
 public class SoundModulation : MonoBehaviour
 {
-    [Header("Objects requirement")]
-    [SerializeField] public GameObject soundSphere;
-    [SerializeField] public Animator anim;
-    [SerializeField] SphereCollider sphere;
-    [Space]
-    [Header("Raycast requirement")]
-    [Tooltip("Necesario para que la esfera este siempre a nivel del suelo")]
-    [SerializeField] Transform player;
-    [SerializeField] float compensation;
-    public bool noSoundHere;
-    RaycastHit hit;
-    Ray ray;
-    [Space]
-    [Header("Bool States")]
-    [Tooltip("Booleanos que determinan el nivel de ruido y se resetean siempre a cero")]
-    [SerializeField] public bool low, medium, high, cero;
-    void Awake()
+    public MAnimal animal;
+    [Header("Settings")]
+    [SerializeField] public bool enable = true;
+    private RectTransform _soundEffect;
+    private Image _soundImage;
+    private Image _alertImage;
+    private float _currentMaxSoundEffectSize = 4;
+    [SerializeField] public float maxSoundEffectSize = 4;
+    [SerializeField] public float maxSoundEffectWhenSneaky = 1;
+    private const float SOUND_EFFECT_SIZE_ADJUSTMENT = 2.5f;
+    private Animator _animator;
+    private float _movementScale = 0;
+    [SerializeField] private bool _sneak = false;
+    [SerializeField] public bool isSneak { get { return _sneak; } }
+    private SoundModulationState _currentState = SoundModulationState.UNDETECTED;
+    private Color _currentEffectColor = Color.white;
+    private const float COLOR_CHANGE_SPEED = 5f;
+
+    private void Awake()
     {
-        sphere.isTrigger = true;
+        animal = transform.parent.GetComponentInParent<MAnimal>();
+        _animator = animal.GetComponent<Animator>();
+        _soundEffect = GetComponent<RectTransform>();
+        _soundImage = GetComponent<Image>();
+        _alertImage = transform.GetChild(0).GetComponent<Image>();
+        ToggleSneak(false);
+        ChangeState(SoundModulationState.UNDETECTED);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (noSoundHere) { soundSphere.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f); }
-        else
+        if (!enable)
         {
-            SpeedMovements();
-            BoolSpeeds();
-            if (Physics.Raycast(player.position, Vector3.down, out hit, Mathf.Infinity))
-            {
-                Debug.DrawRay(transform.position, Vector3.down * hit.distance, Color.blue);
-                soundSphere.transform.position = new Vector3(transform.position.x, hit.transform.position.y + compensation, transform.position.z);
-            }
+            _soundEffect.localScale = Vector2.zero;
+            return;
         }
 
+        _movementScale = _animator.GetFloat("Vertical") / SOUND_EFFECT_SIZE_ADJUSTMENT;
 
-    }
-    public void IsSneak(bool sneaking)
-    {
-        if (sneaking) noSoundHere = sneaking;
+        _soundImage.color = Color.Lerp(_soundImage.color, _currentEffectColor, Time.deltaTime * COLOR_CHANGE_SPEED);
 
+        AdjustSoundEffectSize();
+        AdjustSoundEffectPosition();  
     }
-    void SpeedMovements()
-    {
-        if (anim.GetFloat("Vertical") > 2f) high = true;
-        if (anim.GetFloat("Vertical") > 1.1f && anim.GetFloat("Vertical") < 2) medium = true;
-        if (anim.GetFloat("Vertical") > 0 && anim.GetFloat("Vertical") < 1.1f) low = true;
-        if (anim.GetFloat("Vertical") == 0) cero = true;
-    }
-    void BoolSpeeds()
-    {
-        if (cero) soundSphere.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
-        if (low) StartCoroutine("LowSound");
-        if (medium) StartCoroutine("MediumSound");
-        if (high) StartCoroutine("HighSound");
 
-    }
-    IEnumerator LowSound()
+    void AdjustSoundEffectSize()
     {
-        cero = false;
-        soundSphere.transform.localScale = new Vector3(0.5f, 0.01f, 0.5f);
-        yield return new WaitForSeconds(0.2f);
-        cero = true;
-        low = false;
+        //sound effect size adjustment represents the top of which "vertical" can reach.
+        _currentMaxSoundEffectSize = _sneak ? maxSoundEffectWhenSneaky : maxSoundEffectSize;
+        _movementScale = Mathf.Clamp(_movementScale, 0, _currentMaxSoundEffectSize);
+        _soundEffect.localScale = Vector3.one * _movementScale;
     }
-    IEnumerator MediumSound()
+
+    void AdjustSoundEffectPosition()
     {
-        cero = false;
-        soundSphere.transform.localScale = new Vector3(2, 0.01f, 2);
-        yield return new WaitForSeconds(0.2f);
-        cero = true;
-        medium = false;
+        Vector3 initialPosition = _animator.transform.position + Vector3.up * 0.1f;
+        RaycastHit hit;
+        Ray ray = new Ray(initialPosition, Vector3.down);
+
+        _soundEffect.rotation = Quaternion.Euler(90,0,0);
+        if (Physics.Raycast(ray, out hit))
+        {
+            _soundEffect.transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
+        }
     }
-    IEnumerator HighSound()
+
+    public void ToggleSneak(bool mode)
     {
-        cero = false;
-        soundSphere.transform.localScale = new Vector3(4, 0.01f, 4);
-        yield return new WaitForSeconds(0.2f);
-        cero = true;
-        high = false;
+        Debug.Log("Animal " + (mode ? "entered" : "exited") + " sneak mode");
+        _sneak = mode;
     }
+
+    public void ToggleSneak()
+    {
+        ToggleSneak(!_sneak);
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        //Add AI Interactions.
+        //Change state.
+    }
+
+    public void ChangeState(SoundModulationState state)
+    {
+        switch (state)
+        {
+            case SoundModulationState.UNDETECTED:
+                _currentEffectColor = Color.white;
+                _alertImage.gameObject.SetActive(false);
+                break;
+            case SoundModulationState.WARNED:
+                _currentEffectColor = Color.yellow;
+                _alertImage.gameObject.SetActive(false);
+                break;
+            case SoundModulationState.ALERTED:
+                _currentEffectColor = Color.red;
+                _alertImage.gameObject.SetActive(true);
+                //Display "you were spotted!"
+                break;
+        }
+    }
+}
+
+public enum SoundModulationState
+{
+    UNDETECTED,
+    WARNED,
+    ALERTED,
 }

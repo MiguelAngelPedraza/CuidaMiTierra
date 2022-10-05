@@ -9,7 +9,7 @@ public class NoVisibleZone : MonoBehaviour
     {
         if(other.CompareTag("Animal"))
         {
-            other.FindComponentInRoot<SoundModulation>().noSoundHere=true;
+            other.FindComponentInRoot<SoundModulation>().ToggleSneak(true);
         }
     }
     public Transform juga;
@@ -18,7 +18,7 @@ public class NoVisibleZone : MonoBehaviour
     {
         if(other.CompareTag("Animal"))
         {
-            other.FindComponentInRoot<SoundModulation>().noSoundHere=false;
+            other.FindComponentInRoot<SoundModulation>().ToggleSneak(false);
         }
 
         transform.rotation= Quaternion.Slerp(transform.rotation, juga.transform.rotation, speed);

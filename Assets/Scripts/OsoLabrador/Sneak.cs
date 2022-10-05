@@ -8,7 +8,8 @@ public class Sneak : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.C))sound.noSoundHere=!sound.noSoundHere;
+        if(Input.GetKeyDown(KeyCode.C))
+            sound.ToggleSneak();
         
     }
 }
