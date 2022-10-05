@@ -20,6 +20,7 @@ public class ChangePlayers : MonoBehaviour
     [Header("Restart WolfVision")]
     [SerializeField] GameObject postProcess;
     [SerializeField] ActivateOutlines outline;
+    
 
     
     void Start()

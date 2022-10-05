@@ -750,7 +750,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4787861396889201205}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.5233326, y: -0.55301833, z: -0.91265106}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1487,7 +1487,7 @@ MonoBehaviour:
     OnPressedNormalized:
       m_PersistentCalls:
         m_Calls: []
-  showInputEvents: 1
+  showInputEvents: 0
   OnInputEnabled:
     m_PersistentCalls:
       m_Calls: []
@@ -1539,8 +1539,8 @@ MonoBehaviour:
   PivotPosDir: 0
   showStates: 1
   ModeShowEvents: 0
-  Editor_Tabs1: 1
-  Editor_Tabs2: 4
+  Editor_Tabs1: 4
+  Editor_Tabs2: 0
   Editor_EventTabs: 0
   SelectedMode: 3
   SelectedState: 0
@@ -1549,8 +1549,8 @@ MonoBehaviour:
   debugModes: 0
   ShowAnimParametersOptional: 1
   ShowAnimParameters: 1
-  ShowLockInputs: 0
-  ShowMisc: 0
+  ShowLockInputs: 1
+  ShowMisc: 1
   ShowStateInInspector: 0
   debugGizmos: 1
   ShowMovement: 1
@@ -3578,7 +3578,7 @@ MonoBehaviour:
       Variable: {fileID: 0}
     TopIndex:
       UseConstant: 1
-      ConstantValue: 2
+      ConstantValue: 1
       Variable: {fileID: 0}
     m_LockIndex:
       UseConstant: 1
@@ -3789,7 +3789,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   useSprintGlobal:
     UseConstant: 1
-    ConstantValue: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   currentAnimTag: 0
   platform: {fileID: 0}
