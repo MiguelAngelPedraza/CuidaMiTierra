@@ -535,6 +535,7 @@ namespace MalbersAnimations.Controller
 
         internal void OnAnimatorMove(float deltaTime)
         {
+            if (ActiveAbility == null) return;  
             if (ActiveAbility.Status == AbilityStatus.Charged && ActiveAbility.AbilityTime > 0)
             {
                 var currentTime = (Time.time - ActivationTime)/ActiveAbility.AbilityTime;
@@ -553,6 +554,7 @@ namespace MalbersAnimations.Controller
             //Debug.Log("Active Ability = " + ActiveAbility.Index.Value);
             //Debug.Log("Exiting Avility = " + exitingAbility.Index.Value);
             //Debug.Log("ActiveMode = " + Animal.ActiveMode);
+            if (exitingAbility == null) return;
 
             //Means that we just exiting the same animation that we entered IMPORTANT
             string ExitTagLogic = "[Skip Exit Logic]";
@@ -590,6 +592,7 @@ namespace MalbersAnimations.Controller
             }
             Debugging($"<B><color=red>[ANIMATION EXIT]</color></B> Ability: <B><color=white>[{(exitingAbility?.Name)}]</color> " +
                 $"Status: <color=white>{ExitTagLogic}</color></B>");
+            Debug.Log(exitingAbility.Index);
         }
       
        
@@ -635,13 +638,15 @@ namespace MalbersAnimations.Controller
             {
                 Animal.ModeTime = stateInfo.normalizedTime;
                 modifier?.OnModeMove(this, stateInfo, anim, Layer);
-                ActiveAbility.modifier?.OnModeMove(this, stateInfo, anim, Layer);
+                if (ActiveAbility != null)
+                    ActiveAbility.modifier?.OnModeMove(this, stateInfo, anim, Layer);
             }
         }
 
         /// <summary> Check for Exiting the Mode, If the animal changed to a new state and the Affect list has some State</summary>
         public virtual bool StateCanInterrupt(StateID ID, Ability ability = null)
         {
+            if (ActiveAbility == null) return false;
             if (ability == null) ability = ActiveAbility;
 
             var properties = ability.Limits;

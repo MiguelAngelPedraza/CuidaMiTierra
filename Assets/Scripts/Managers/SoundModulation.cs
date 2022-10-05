@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using MalbersAnimations.Controller;
 
 public class SoundModulation : MonoBehaviour
 {
+    public MAnimal animal;
     [Header("Settings")]
     [SerializeField] public bool enable = true;
     private RectTransform _soundEffect;
@@ -24,7 +26,8 @@ public class SoundModulation : MonoBehaviour
 
     private void Awake()
     {
-        _animator = transform.parent.GetComponentInParent<Animator>();
+        animal = transform.parent.GetComponentInParent<MAnimal>();
+        _animator = animal.GetComponent<Animator>();
         _soundEffect = GetComponent<RectTransform>();
         _soundImage = GetComponent<Image>();
         _alertImage = transform.GetChild(0).GetComponent<Image>();
@@ -41,15 +44,6 @@ public class SoundModulation : MonoBehaviour
         }
 
         _movementScale = _animator.GetFloat("Vertical") / SOUND_EFFECT_SIZE_ADJUSTMENT;
-
-        if (Input.GetKey(KeyCode.J))
-            ChangeState(SoundModulationState.WARNED);
-
-        if (Input.GetKey(KeyCode.P))
-            ChangeState(SoundModulationState.ALERTED);
-
-        if (Input.GetKey(KeyCode.C))
-            ChangeState(SoundModulationState.UNDETECTED);
 
         _soundImage.color = Color.Lerp(_soundImage.color, _currentEffectColor, Time.deltaTime * COLOR_CHANGE_SPEED);
 
@@ -80,6 +74,7 @@ public class SoundModulation : MonoBehaviour
 
     public void ToggleSneak(bool mode)
     {
+        Debug.Log("Animal " + (mode ? "entered" : "exited") + " sneak mode");
         _sneak = mode;
     }
 
@@ -119,5 +114,5 @@ public enum SoundModulationState
 {
     UNDETECTED,
     WARNED,
-    ALERTED
+    ALERTED,
 }
