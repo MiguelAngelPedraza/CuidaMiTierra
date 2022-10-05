@@ -53,7 +53,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8228516850976378784, guid: e001b7dee1e40fa41bcfa643891b44bf, type: 3}
       propertyPath: m_Name
-      value: EnterHole
+      value: EnterHole Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8229942833391316610, guid: e001b7dee1e40fa41bcfa643891b44bf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8332813039881330540, guid: e001b7dee1e40fa41bcfa643891b44bf, type: 3}
       propertyPath: automatic
