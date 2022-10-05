@@ -2948,7 +2948,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7191610867910939285}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.64265823, y: -0.55301833, z: -1.0689106}
   m_LocalScale: {x: 1.05, y: 1.05, z: 1.05}
   m_Children:
@@ -3855,7 +3855,7 @@ MonoBehaviour:
   PivotPosDir: 1
   showStates: 1
   ModeShowEvents: 0
-  Editor_Tabs1: 1
+  Editor_Tabs1: 0
   Editor_Tabs2: 4
   Editor_EventTabs: 0
   SelectedMode: 3
@@ -6550,7 +6550,7 @@ MonoBehaviour:
       Variable: {fileID: 0}
     TopIndex:
       UseConstant: 1
-      ConstantValue: 2
+      ConstantValue: 1
       Variable: {fileID: 0}
     m_LockIndex:
       UseConstant: 1
@@ -7017,7 +7017,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   useSprintGlobal:
     UseConstant: 1
-    ConstantValue: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   currentAnimTag: 0
   platform: {fileID: 0}
